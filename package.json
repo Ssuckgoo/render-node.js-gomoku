@@ -1,0 +1,17 @@
+{
+  "name": "render-omok",
+  "version": "1.0.0",
+  "description": "Render 무료 티어용 오목 게임 (AI 대전 / 로컬 2인 / 온라인 방 대전)",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}

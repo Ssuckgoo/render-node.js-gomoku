@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>오목</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>오목</h1>
+
+    <section id="menu">
+      <div class="card">
+        <h2>AI와 대전</h2>
+        <div class="row">
+          <label><input type="radio" name="first" value="1" checked> 내가 흑 (선공)</label>
+          <label><input type="radio" name="first" value="2"> 내가 백 (후공)</label>
+        </div>
+        <button id="btn-ai" class="primary">시작</button>
+      </div>
+
+      <div class="card">
+        <h2>한 기기에서 둘이</h2>
+        <button id="btn-local" class="primary">시작</button>
+      </div>
+
+      <div class="card">
+        <h2>온라인 대전</h2>
+        <button id="btn-create" class="primary">방 만들기</button>
+        <div class="row join">
+          <input id="code-input" maxlength="4" placeholder="방 코드" autocomplete="off" autocapitalize="characters">
+          <button id="btn-join">참가</button>
+        </div>
+      </div>
+
+      <p id="menu-msg" class="msg"></p>
+    </section>
+
+    <section id="game" hidden>
+      <p id="status" class="status"></p>
+      <p id="share" class="msg" hidden>
+        방 코드 <strong id="share-code"></strong>
+        <button id="btn-copy" class="small">초대 링크 복사</button>
+      </p>
+      <div id="board-wrap">
+        <canvas id="board"></canvas>
+      </div>
+      <div class="row actions">
+        <button id="btn-undo">무르기</button>
+        <button id="btn-restart">다시하기</button>
+        <button id="btn-menu">메뉴로</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="rules.js"></script>
+  <script src="ai.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>
