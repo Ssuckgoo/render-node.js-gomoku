@@ -1,84 +1,299 @@
+/* 기원(棋院) 테마: 한지 바탕에 먹색 글씨, 나무 바둑판, 붉은 인주 도장 */
 :root {
-  --bg: #1f2428;
-  --panel: #2b3238;
-  --text: #f1f3f5;
-  --muted: #a7b0b8;
-  --accent: #e0a34a;
-  --accent-text: #2a1c06;
+  --paper: #f1e9d6;
+  --paper-light: #f8f2e3;
+  --paper-dark: #e3d7bd;
+  --ink: #1f1b16;
+  --ink-soft: #6a6052;
+  --line: #b9a98a;
+  --seal: #b3272d; /* 인주 */
+  --seal-dark: #8a1c21;
+  --wood: #dcae62;
+  --wood-dark: #8a5a22;
+  --brush-font: "Nanum Brush Script", "Gowun Batang", serif;
+  --body-font: "Gowun Batang", "Nanum Myeongjo", "Batang", serif;
 }
 
 * { box-sizing: border-box; }
 
+html { background: var(--paper); }
+
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--body-font);
+  font-size: 16px;
+  line-height: 1.55;
+  word-break: keep-all;
+  /* 한지: 얼룩과 가는 섬유결 */
+  background:
+    radial-gradient(40% 30% at 12% 8%, #ffffff66, transparent 70%),
+    radial-gradient(35% 25% at 90% 30%, #d9c9a655, transparent 70%),
+    radial-gradient(45% 30% at 30% 85%, #d9c9a644, transparent 70%),
+    repeating-linear-gradient(87deg, #8a7a5a0a 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(-4deg, #8a7a5a08 0 1px, transparent 1px 11px),
+    var(--paper);
+  background-attachment: fixed;
 }
+
+.mountains {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 26vh;
+  min-height: 150px;
+  pointer-events: none;
+  z-index: 0;
+}
+.mountains .far { fill: #1f1b16; opacity: 0.06; }
+.mountains .mid { fill: #1f1b16; opacity: 0.09; }
+.mountains .near { fill: #1f1b16; opacity: 0.13; }
 
 main {
-  max-width: 640px;
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
   margin: 0 auto;
-  padding: 16px;
-  text-align: center;
+  padding: 14px 14px 40px;
 }
 
-h1 { margin: 8px 0 16px; font-size: 28px; letter-spacing: 4px; }
-h2 { margin: 0 0 12px; font-size: 17px; }
+/* ---------- 제목 ---------- */
 
+.title { position: relative; text-align: center; margin: 2px 0 12px; }
+.title h1 {
+  display: inline-block;
+  margin: 0;
+  font-family: var(--brush-font);
+  font-weight: 400;
+  font-size: 76px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  padding-left: 0.08em;
+  color: var(--ink);
+}
+/* 붉은 낙관 */
+.seal {
+  display: inline-block;
+  width: 34px;
+  margin-left: 2px;
+  padding: 4px 0;
+  vertical-align: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.1em;
+  color: var(--paper-light);
+  background: var(--seal);
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 2px var(--seal), inset 0 0 0 3px #f8f2e388;
+  transform: rotate(-3deg);
+}
+.subtitle { margin: 0; font-size: 14px; letter-spacing: 0.2em; color: var(--ink-soft); }
+.subtitle::before, .subtitle::after { content: "〰"; margin: 0 8px; color: var(--line); letter-spacing: 0; }
+
+/* 대국 중에는 판이 한 화면에 들어오도록 제목을 줄이고 부제를 숨긴다. */
+main:has(#game:not([hidden])) .title { margin-bottom: 6px; }
+main:has(#game:not([hidden])) .title h1 { font-size: 46px; }
+main:has(#game:not([hidden])) .seal { width: 24px; font-size: 10px; vertical-align: 8px; }
+main:has(#game:not([hidden])) .subtitle { display: none; }
+
+/* ---------- 공통 ---------- */
+
+h2 { margin: 0 0 2px; font-size: 19px; font-weight: 700; }
+p { margin: 0 0 8px; }
+.hint { color: var(--ink-soft); font-size: 14px; margin-bottom: 12px; }
+.msg { min-height: 1.4em; text-align: center; color: var(--ink-soft); }
+.msg strong { margin: 0 4px; font-size: 22px; letter-spacing: 0.2em; color: var(--seal); }
+
+.hero { display: block; width: 100%; margin: 0 0 14px; filter: drop-shadow(0 6px 10px #5a3a1433); }
+
+/* 한지 카드 */
 .card {
-  background: var(--panel);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
+  position: relative;
+  margin-bottom: 14px;
+  padding: 16px 16px 16px 20px;
+  background: linear-gradient(175deg, var(--paper-light), #f3ebd9);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #fff inset, 0 8px 18px #5a4a2a1f;
+}
+/* 왼쪽의 먹선 */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 12px;
+  bottom: 12px;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(var(--ink), #1f1b1655);
+}
+.num {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin-right: 8px;
+  font-size: 15px;
+  line-height: 26px;
+  text-align: center;
+  vertical-align: 2px;
+  color: var(--paper-light);
+  background: var(--ink);
+  border-radius: 50%;
 }
 
-.row {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-}
-.row.join { margin: 12px 0 0; }
-.row.actions { margin-top: 12px; }
+.row { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.row.actions { margin-top: 16px; }
+
+.divider { display: flex; align-items: center; gap: 10px; margin: 12px 0 10px; color: var(--ink-soft); font-size: 13px; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 
 button {
   font: inherit;
-  color: var(--text);
-  background: #3b444c;
-  border: 0;
-  border-radius: 8px;
-  padding: 10px 18px;
+  font-weight: 700;
+  color: var(--ink);
   cursor: pointer;
+  padding: 10px 18px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  background: var(--paper-light);
+  box-shadow: 2px 2px 0 #1f1b1633;
+  transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
 }
-button:hover { filter: brightness(1.15); }
-button:disabled { opacity: 0.4; cursor: default; filter: none; }
-button.primary { background: var(--accent); color: var(--accent-text); font-weight: 700; }
-button.small { padding: 4px 10px; font-size: 13px; margin-left: 8px; }
+button:hover { background: #fffaf0; }
+button:active { transform: translate(2px, 2px); box-shadow: none; }
+button:disabled { opacity: 0.4; cursor: default; transform: none; box-shadow: none; }
+button.primary { color: var(--paper-light); background: var(--ink); }
+button.primary:hover { background: #3a332a; }
+button.wide { display: block; width: 100%; padding: 12px; font-size: 17px; letter-spacing: 0.1em; }
+button.small { padding: 4px 10px; font-size: 13px; margin-left: 6px; box-shadow: 1px 1px 0 #1f1b1633; }
 
-input[type="text"], #code-input {
+#code-input {
   font: inherit;
-  width: 110px;
+  flex: 1;
+  min-width: 0;
   padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #4a545d;
-  background: #1a1e22;
-  color: var(--text);
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 0.3em;
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  border-radius: 3px;
+  background: #fffaf0;
+}
+#code-input:focus { outline: none; border-color: var(--ink); }
+
+/* ---------- 바둑돌 (HTML 장식용. 판 위의 돌은 client.js 가 캔버스에 그린다) ---------- */
+
+.stone {
+  display: inline-block;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  box-shadow: 1px 2px 3px #0006;
+}
+.stone.black { background: radial-gradient(circle at 35% 30%, #6a6a6a, #1b1b1b 55%, #050505); }
+.stone.white { background: radial-gradient(circle at 35% 30%, #ffffff, #ece7dc 70%, #c9c2b3); box-shadow: 1px 2px 3px #0005, inset 0 0 0 0.5px #b8b2a6; }
+
+/* 흑/백 고르기: 라디오 버튼을 숨기고 돌 모양 단추로 보여 준다 */
+.choice { display: flex; gap: 8px; margin-bottom: 12px; }
+.choice label { flex: 1; cursor: pointer; }
+.choice input { position: absolute; opacity: 0; pointer-events: none; }
+.choice span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 6px;
+  border: 1.5px solid var(--line);
+  border-radius: 3px;
+  background: #fffaf0;
+  color: var(--ink-soft);
+}
+.choice input:checked + span { border-color: var(--ink); color: var(--ink); font-weight: 700; box-shadow: inset 0 -3px 0 var(--seal); }
+.choice input:focus-visible + span { outline: 2px solid var(--seal); outline-offset: 2px; }
+
+/* ---------- 대국 화면 ---------- */
+
+.players { display: flex; align-items: stretch; gap: 8px; margin-bottom: 8px; }
+.plate {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper-light);
+  opacity: 0.6;
+  transition: opacity 0.2s, box-shadow 0.2s;
+}
+.plate.right { justify-content: flex-end; text-align: right; }
+.plate b { display: block; font-size: 17px; line-height: 1.2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.plate small { color: var(--ink-soft); font-size: 12px; }
+.plate span { min-width: 0; }
+.plate .stone { width: 32px; height: 32px; }
+/* 차례인 쪽 */
+.plate.turn { opacity: 1; border-color: var(--ink); box-shadow: inset 0 -4px 0 var(--seal), 0 6px 14px #5a4a2a26; }
+/* 이긴 쪽 */
+.plate.won { opacity: 1; border-color: var(--seal); box-shadow: inset 0 0 0 2px var(--seal); }
+
+.count { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 4px; line-height: 1.1; }
+.count b { font-size: 22px; }
+.count small { font-size: 11px; color: var(--ink-soft); }
+
+.status {
+  min-height: 1.3em;
+  margin: 0 0 6px;
+  text-align: center;
+  font-family: var(--brush-font);
+  font-size: 30px;
+  line-height: 1.3;
 }
 
-.status { font-size: 18px; font-weight: 700; margin: 0 0 8px; min-height: 1.4em; }
-.msg { color: var(--muted); margin: 0 0 10px; min-height: 1.2em; }
-.msg strong { color: var(--accent); letter-spacing: 3px; font-size: 18px; }
-
 #board-wrap { display: flex; justify-content: center; }
-#board {
+/* 바둑판의 두꺼운 나무 테두리 */
+.goban {
+  position: relative;
+  padding: 9px;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #c08c44, #9a6a2c 60%, #7d5320);
+  box-shadow: inset 0 1px 0 #ffffff55, inset 0 -2px 0 #0003, 0 3px 0 #5d3d16, 0 14px 26px #3a2a1466;
+}
+#board { display: block; border-radius: 2px; cursor: pointer; touch-action: manipulation; }
+
+/* 승패 도장 */
+#stamp {
+  position: absolute;
+  top: 7%;
+  right: 6%;
+  padding: 2px 14px 6px;
+  font-family: var(--brush-font);
+  font-size: 64px;
+  line-height: 1.1;
+  color: var(--seal);
+  border: 5px solid var(--seal);
   border-radius: 8px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-  touch-action: manipulation;
-  cursor: pointer;
+  background: #f8f2e3cc;
+  transform: rotate(-10deg);
+  pointer-events: none;
+  animation: stamp 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+#stamp[hidden] { display: none; }
+#stamp.lose { color: var(--ink); border-color: var(--ink); }
+@keyframes stamp {
+  from { opacity: 0; transform: rotate(-10deg) scale(2.2); }
+  to { opacity: 0.95; transform: rotate(-10deg) scale(1); }
+}
+
+@media (max-width: 380px) {
+  .title h1 { font-size: 64px; }
+  .status { font-size: 26px; }
+  .plate { padding: 6px 8px; gap: 8px; }
+  .plate .stone { width: 26px; height: 26px; }
 }

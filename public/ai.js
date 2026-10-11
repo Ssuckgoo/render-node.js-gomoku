@@ -59,7 +59,7 @@
         }
       }
     }
-    return best || [center, center]; // 빈 판이면 천원
+    return best || [center, center]; // 빈 판이면 천원(맨 중앙)
   }
 
   root.OmokAI = { chooseMove };

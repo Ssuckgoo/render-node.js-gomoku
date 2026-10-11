@@ -4,30 +4,86 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>오목</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- 배경 장식: 먹으로 번진 산 -->
+  <svg class="mountains" viewBox="0 0 400 120" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path class="far" d="M0 120V70q30-34 62-12 26-40 60-8 30-30 58 4 34-44 70-6 30-26 56 6 30-30 54-4 22-14 40 4v66z"/>
+    <path class="mid" d="M0 120V88q36-30 70-6 30-34 66-4 40-36 78 0 34-28 66-2 30-22 60 2 30-16 60 6v36z"/>
+    <path class="near" d="M0 120v-14q50-26 96-6 44-28 92-2 46-24 96 0 44-20 82 0 20-8 34 2v20z"/>
+  </svg>
+
   <main>
-    <h1>오목</h1>
+    <header class="title">
+      <h1>오목</h1>
+      <span class="seal" aria-hidden="true">五目</span>
+      <p class="subtitle">다섯 알을 먼저 잇는 쪽이 이긴다</p>
+    </header>
 
     <section id="menu">
+      <!-- 장식: 판 한 귀퉁이 -->
+      <svg class="hero" viewBox="0 0 320 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="hero-wood" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#e9c079"/><stop offset="1" stop-color="#cf9c4e"/>
+          </linearGradient>
+          <radialGradient id="hero-black" cx="35%" cy="30%" r="70%">
+            <stop offset="0" stop-color="#6a6a6a"/><stop offset="0.5" stop-color="#1b1b1b"/><stop offset="1" stop-color="#050505"/>
+          </radialGradient>
+          <radialGradient id="hero-white" cx="35%" cy="30%" r="75%">
+            <stop offset="0" stop-color="#ffffff"/><stop offset="0.7" stop-color="#ece7dc"/><stop offset="1" stop-color="#c9c2b3"/>
+          </radialGradient>
+        </defs>
+        <rect x="4" y="4" width="312" height="112" rx="4" fill="url(#hero-wood)" stroke="#8a5a22" stroke-width="2"/>
+        <g stroke="#3a2a14" stroke-width="1" opacity="0.85">
+          <path d="M20 20H300M20 46.7H300M20 73.3H300M20 100H300"/>
+          <path d="M20 20V100M46.7 20V100M73.3 20V100M100 20V100M126.7 20V100M153.3 20V100M180 20V100M206.7 20V100M233.3 20V100M260 20V100M286.7 20V100M300 20V100" />
+        </g>
+        <g>
+          <circle cx="73.3" cy="100" r="11.5" fill="url(#hero-black)"/>
+          <circle cx="100" cy="73.3" r="11.5" fill="url(#hero-black)"/>
+          <circle cx="126.7" cy="46.7" r="11.5" fill="url(#hero-black)"/>
+          <circle cx="153.3" cy="20" r="11.5" fill="url(#hero-black)"/>
+          <circle cx="180" cy="73.3" r="11.5" fill="url(#hero-black)"/>
+          <circle cx="100" cy="46.7" r="11.5" fill="url(#hero-white)" stroke="#b8b2a6" stroke-width="0.6"/>
+          <circle cx="126.7" cy="73.3" r="11.5" fill="url(#hero-white)" stroke="#b8b2a6" stroke-width="0.6"/>
+          <circle cx="153.3" cy="73.3" r="11.5" fill="url(#hero-white)" stroke="#b8b2a6" stroke-width="0.6"/>
+          <circle cx="206.7" cy="46.7" r="11.5" fill="url(#hero-white)" stroke="#b8b2a6" stroke-width="0.6"/>
+          <circle cx="233.3" cy="73.3" r="11.5" fill="url(#hero-white)" stroke="#b8b2a6" stroke-width="0.6"/>
+        </g>
+      </svg>
+
       <div class="card">
-        <h2>AI와 대전</h2>
-        <div class="row">
-          <label><input type="radio" name="first" value="1" checked> 내가 흑 (선공)</label>
-          <label><input type="radio" name="first" value="2"> 내가 백 (후공)</label>
+        <h2><span class="num">一</span>AI와 대전</h2>
+        <p class="hint">컴퓨터와 한 판 둡니다. 무르기를 쓸 수 있습니다.</p>
+        <div class="choice">
+          <label>
+            <input type="radio" name="first" value="1" checked>
+            <span><i class="stone black"></i>흑 · 선공</span>
+          </label>
+          <label>
+            <input type="radio" name="first" value="2">
+            <span><i class="stone white"></i>백 · 후공</span>
+          </label>
         </div>
-        <button id="btn-ai" class="primary">시작</button>
+        <button id="btn-ai" class="primary wide">대국 시작</button>
       </div>
 
       <div class="card">
-        <h2>한 기기에서 둘이</h2>
-        <button id="btn-local" class="primary">시작</button>
+        <h2><span class="num">二</span>한 기기에서 둘이</h2>
+        <p class="hint">한 화면을 두고 번갈아 둡니다.</p>
+        <button id="btn-local" class="primary wide">대국 시작</button>
       </div>
 
       <div class="card">
-        <h2>온라인 대전</h2>
-        <button id="btn-create" class="primary">방 만들기</button>
+        <h2><span class="num">三</span>온라인 대전</h2>
+        <p class="hint">방을 만들고 코드나 초대 링크를 상대에게 보내세요.</p>
+        <button id="btn-create" class="primary wide">방 만들기</button>
+        <div class="divider"><span>또는</span></div>
         <div class="row join">
           <input id="code-input" maxlength="4" placeholder="방 코드" autocomplete="off" autocapitalize="characters">
           <button id="btn-join">참가</button>
@@ -38,14 +94,33 @@
     </section>
 
     <section id="game" hidden>
+      <!-- 대국자 명패: 차례인 쪽이 강조된다 -->
+      <div class="players">
+        <div id="plate-1" class="plate">
+          <i class="stone black"></i>
+          <span><b id="plate-1-name"></b><small>흑 · 선공</small></span>
+        </div>
+        <div class="count"><small>제</small><b id="move-count">0</b><small>수</small></div>
+        <div id="plate-2" class="plate right">
+          <span><b id="plate-2-name"></b><small>백 · 후공</small></span>
+          <i class="stone white"></i>
+        </div>
+      </div>
+
       <p id="status" class="status"></p>
       <p id="share" class="msg" hidden>
         방 코드 <strong id="share-code"></strong>
         <button id="btn-copy" class="small">초대 링크 복사</button>
       </p>
+
       <div id="board-wrap">
-        <canvas id="board"></canvas>
+        <div class="goban">
+          <canvas id="board"></canvas>
+          <!-- 승패가 나면 판 위에 찍히는 도장 -->
+          <div id="stamp" hidden></div>
+        </div>
       </div>
+
       <div class="row actions">
         <button id="btn-undo">무르기</button>
         <button id="btn-restart">다시하기</button>
